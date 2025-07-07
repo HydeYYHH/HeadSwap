@@ -53,6 +53,10 @@ face parsing -> [face-parsing.PyTorch](https://github.com/zllrunning/face-parsin
     # set your own image path in inference.py
     python inference.py
     ```
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=LeslieZhoa/HeadSwap&type=Date)](https://star-history.com/#LeslieZhoa/HeadSwap&Date)
+    
 
 ## Credits
 HeSer.Pytorch model and implementation:
