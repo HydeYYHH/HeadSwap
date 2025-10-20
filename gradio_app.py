@@ -34,6 +34,16 @@ def head_swap(src_image, tgt_image, crop_align=True, cat=True):
             return "Model loading failed, please check if pretrained model files exist"
     
     try:
+        if src_image.dtype == np.float64:
+            src_image = (src_image * 255).astype(np.uint8)
+        elif src_image.dtype != np.uint8:
+            src_image = src_image.astype(np.uint8)
+            
+        if tgt_image.dtype == np.float64:
+            tgt_image = (tgt_image * 255).astype(np.uint8)
+        elif tgt_image.dtype != np.uint8:
+            tgt_image = tgt_image.astype(np.uint8)
+        
         src_path = "temp_src.jpg"
         tgt_path = "temp_tgt.jpg"
         cv2.imwrite(src_path, cv2.cvtColor(src_image, cv2.COLOR_RGB2BGR))
@@ -52,6 +62,12 @@ def head_swap(src_image, tgt_image, crop_align=True, cat=True):
         if result is None:
             return "Cannot detect face in images, please try other images"
         
+        # Ensure result is in 8-bit format before color conversion
+        if result.dtype == np.float64:
+            result = (result * 255).astype(np.uint8)
+        elif result.dtype != np.uint8:
+            result = result.astype(np.uint8)
+            
         return cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
     
     except Exception as e:
@@ -71,7 +87,7 @@ def create_gradio_app():
                 crop_align = gr.Checkbox(label="Crop and Align Source Image", value=True)
                 cat = gr.Checkbox(label="Show Comparison in Result", value=True)
                 
-                run_button = gr.Button("Run Head Swap", variant="primary")
+                run_button = gr.Button("Run", variant="primary")
             
             with gr.Column():
                 output_image = gr.Image(label="Swap Result", type="numpy")
@@ -82,10 +98,6 @@ def create_gradio_app():
             inputs=[src_image, tgt_image, crop_align, cat],
             outputs=[output_image]
         )
-        
-        gr.Markdown("### Examples")
-        with gr.Row():
-            gr.Markdown("Try using these example images for testing")
         
     return app
 
