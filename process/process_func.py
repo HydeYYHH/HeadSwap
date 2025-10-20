@@ -20,7 +20,7 @@ class Process:
         # 3dmm params
         self.ParamsModel = ReconNetWrapper()
         self.ParamsModel.to(self.device)
-        self.ParamsModel.load_state_dict(torch.load(params_path)['net_recon'])
+        self.ParamsModel.load_state_dict(torch.load(params_path, weights_only=False)['net_recon'])
         self.lm3d_std = load_lm3d(bfm_folder) 
         self.mean =torch.tensor([0.485, 0.456, 0.406], dtype=torch.float32)
         self.std = torch.tensor([0.229, 0.224, 0.225], dtype=torch.float32)

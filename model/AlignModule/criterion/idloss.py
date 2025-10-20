@@ -8,7 +8,7 @@ class IDLoss(nn.Module):
     def __init__(self,pretrain_model, requires_grad=False):
         super(IDLoss, self).__init__()
         self.idModel = Backbone(50,0.6,'ir_se')
-        self.idModel.load_state_dict(torch.load(pretrain_model),strict=False)
+        self.idModel.load_state_dict(torch.load(pretrain_model, weights_only=False),strict=False)
         self.idModel.eval()
         self.criterion = nn.CosineSimilarity(dim=1,eps=1e-6)
         self.id_size = 112

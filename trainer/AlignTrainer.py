@@ -353,7 +353,7 @@ class AlignTrainer(ModelTrainer):
         return self.generator
 
     def loadParameters(self,path):
-        ckpt = torch.load(path, map_location=lambda storage, loc: storage)
+        ckpt = torch.load(path, map_location=lambda storage, loc: storage, weights_only=False)
         self.netG.load_state_dict(ckpt['G'],strict=False)
         self.optimG.load_state_dict(ckpt['g_optim'])
         if self.netD is not None and 'D' in ckpt:
@@ -388,7 +388,7 @@ class AlignTrainer(ModelTrainer):
 
     def load_scratch_path(self):
         
-        state_dict = torch.load(self.args.scratch_path)['net_G_ema']
+        state_dict = torch.load(self.args.scratch_path, weights_only=False)['net_G_ema']
         model_dict = self.netG.state_dict()
         pretrained_dict = {k:v for k,v in state_dict.items() if k in model_dict} 
         model_dict.update(pretrained_dict)
@@ -408,7 +408,7 @@ class AlignTrainer(ModelTrainer):
        
         for n in self.args.frozen_params:
             for p in self.netG.__getattr__(n).parameters():
-                p.requires_grad = False 
+                p.requires_grad = False
 
 
         

@@ -1,6 +1,12 @@
+import numpy as np
+np.sctypes = {
+    'int': [np.int8, np.int16, np.int32, np.int64],
+    'uint': [np.uint8, np.uint16, np.uint32, np.uint64],
+    'float': [np.float16, np.float32, np.float64, np.float128],
+    'complex': [np.complex64, np.complex128, np.complex256]
+}
 import imgaug.augmenters as iaa
 import torch
-import numpy as np
 
 from contextlib import contextmanager
 

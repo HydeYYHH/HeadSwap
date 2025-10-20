@@ -229,7 +229,7 @@ class BlendTrainer(ModelTrainer):
         return self.generator
 
     def loadParameters(self,path):
-        ckpt = torch.load(path, map_location=lambda storage, loc: storage)
+        ckpt = torch.load(path, map_location=lambda storage, loc: storage, weights_only=False)
         self.netG.load_state_dict(ckpt['G'],strict=False)
         self.netD.load_state_dict(ckpt['D'],strict=False)
         self.optimG.load_state_dict(ckpt['g_optim'])

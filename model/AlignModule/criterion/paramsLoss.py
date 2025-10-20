@@ -5,7 +5,7 @@ class ParamsLoss(nn.Module):
     def __init__(self,pretrain_model, requires_grad=False):
         super(ParamsLoss, self).__init__()
         self.model = ReconNetWrapper()
-        self.model.load_state_dict(torch.load(pretrain_model)['net_recon'])
+        self.model.load_state_dict(torch.load(pretrain_model, weights_only=False)['net_recon'])
         self.model.eval()
 
         self.index = list(range(80,144)) + \

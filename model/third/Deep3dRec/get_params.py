@@ -9,7 +9,7 @@ class FaceRec:
     def __init__(self,model_path,bfm_folder,use_lmk=False):
         self.model = ReconNetWrapper()
         self.model.to('cuda')
-        self.model.load_state_dict(torch.load(model_path)['net_recon'])
+        self.model.load_state_dict(torch.load(model_path, weights_only=False)['net_recon'])
         self.model.eval()
         self.lm3d_std = load_lm3d(bfm_folder) 
         if use_lmk:
@@ -56,7 +56,7 @@ class FaceRec:
         img = torch.tensor(np.array(img)/255., dtype=torch.float32).permute(2, 0, 1)
         _, _, ratio, t0, t1 = np.hsplit(trans_params.astype(np.float32), 5)
         trans_params = np.concatenate([ratio, t0, t1], 0)
-        return img.unsqueeze(0), lm, trans_params   
+        return img.unsqueeze(0), lm, trans_params
 
     
 

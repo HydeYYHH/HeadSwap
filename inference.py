@@ -146,14 +146,14 @@ class Infer(Process):
 
         
     def loadModel(self,align_path,blend_path,parsing_path):
-        ckpt = torch.load(align_path, map_location=lambda storage, loc: storage)
+        ckpt = torch.load(align_path, map_location=lambda storage, loc: storage, weights_only=False)
         # self.netG.load_state_dict(ckpt['G'])
         self.netG.load_state_dict(ckpt['net_G_ema'])
 
-        ckpt = torch.load(blend_path, map_location=lambda storage, loc: storage)
+        ckpt = torch.load(blend_path, map_location=lambda storage, loc: storage, weights_only=False)
         self.decoder.load_state_dict(ckpt['G'],strict=False)
 
-        self.parsing.load_state_dict(torch.load(parsing_path))
+        self.parsing.load_state_dict(torch.load(parsing_path, weights_only=False))
 
     
     def eval_model(self,*args):
